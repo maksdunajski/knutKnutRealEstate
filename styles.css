@@ -1,0 +1,204 @@
+/* ---------------------------------------------
+	 Knut Knut Real Estate – Basisstil
+	 Fokus: Lesbarhet, enkel dashboard-følelse, responsiv.
+	 Du kan endre fargevariabler i :root for rask branding.
+---------------------------------------------- */
+
+:root {
+	--bg: #0f1d27;
+	--bg-alt: #163042;
+	--panel: #1f4559;
+	--accent: #34b9ff;
+	--accent-alt: #ffb347;
+	--text: #f1f7fa;
+	--text-dim: #c2d2dc;
+	--border: #2f5d70;
+	--danger: #ff5e5e;
+	--radius-sm: 4px;
+	--radius-md: 10px;
+	--shadow-sm: 0 2px 4px rgba(0,0,0,.25);
+	--shadow-lg: 0 8px 28px rgba(0,0,0,.35);
+	--focus-ring: 0 0 0 3px rgba(52,185,255,0.45);
+	--transition: 150ms ease;
+}
+
+/* Reset / base */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: system-ui,-apple-system,'Segoe UI',Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+	background: radial-gradient(circle at 25% 20%, #142a38, var(--bg));
+	color: var(--text);
+	line-height: 1.4;
+	-webkit-font-smoothing: antialiased;
+	max-width: 860px; /* Begrens linjelengde for bedre lesbarhet */
+	margin: 0 auto;
+	padding: clamp(1.2rem, 2.6vw, 2.4rem) clamp(1rem, 3vw, 2.2rem) 4rem;
+}
+
+h1 {
+	font-size: clamp(1.9rem, 5vw, 2.6rem);
+	font-weight: 600;
+	background: linear-gradient(95deg, var(--accent), var(--accent-alt));
+	background-clip: text; /* Standard property for bred støtte */
+	-webkit-background-clip: text;
+	color: transparent;
+	letter-spacing: .5px;
+	margin-bottom: 1.2rem;
+	text-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+/* Avsnitt som etiketter */
+p {
+	font-size: .95rem;
+	font-weight: 500;
+	letter-spacing: .4px;
+	margin-top: 1.15rem;
+	color: var(--text-dim);
+}
+
+/* Avsnitt rett før input/select får litt ekstra luft */
+p + input,
+p + select {
+	margin-top: .45rem;
+}
+
+input[type="text"],
+select {
+	width: 100%;
+	max-width: 360px;
+	background: var(--panel);
+	border: 1px solid var(--border);
+	color: var(--text);
+	padding: .75rem .9rem;
+	font-size: .95rem;
+	border-radius: var(--radius-sm);
+	outline: none;
+	transition: border-color var(--transition), background var(--transition), box-shadow var(--transition), transform var(--transition);
+	box-shadow: var(--shadow-sm);
+}
+
+input[type="text"]:focus,
+select:focus {
+	border-color: var(--accent);
+	box-shadow: var(--focus-ring);
+	background: #255064;
+}
+
+input[type="text"]:hover,
+select:hover {
+	border-color: var(--accent);
+}
+
+select option {
+	background: var(--panel);
+	color: var(--text);
+}
+
+/* Utdatafelter (prediksjon) */
+#predictedPrice,
+#predictedDaysOnMarket {
+	margin-top: 1.6rem;
+	padding: 1rem 1.15rem;
+	background: linear-gradient(140deg, var(--panel), #224b60 60%);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-md);
+	min-height: 2.4rem;
+	font-weight: 600;
+	letter-spacing: .6px;
+	color: var(--accent);
+	box-shadow: var(--shadow-sm);
+	position: relative;
+	overflow: hidden;
+}
+
+#predictedPrice:empty,
+#predictedDaysOnMarket:empty {
+	display: none; /* Skjul til det finnes innhold */
+}
+
+/* Tilstandsklasser du kan sette med JS senere */
+.is-loading {
+	opacity: .55;
+	pointer-events: none;
+	position: relative;
+}
+
+.is-loading::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: repeating-linear-gradient(90deg, rgba(255,255,255,.06) 0 8px, transparent 8px 16px);
+	animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+	from { transform: translateX(-16px); }
+	to { transform: translateX(16px); }
+}
+
+/* Responsiv forbedring ved litt bredere skjermer */
+@media (min-width: 600px) {
+	body {
+		font-size: 1.02rem;
+	}
+	p { font-size: 1rem; }
+	input[type="text"], select { font-size: 1rem; }
+}
+
+/* Lys-modus hvis bruker foretrekker det */
+@media (prefers-color-scheme: light) {
+	:root {
+		--bg: #f3f8fa;
+		--bg-alt: #e9f2f6;
+		--panel: #ffffff;
+		--text: #1d2d35;
+		--text-dim: #4c5d66;
+		--border: #c6d9e2;
+		--accent: #0077c8;
+		--accent-alt: #ff8c42;
+		--focus-ring: 0 0 0 3px rgba(0,119,200,.35);
+		--shadow-sm: 0 2px 6px rgba(0,0,0,.08);
+		--shadow-lg: 0 12px 34px rgba(0,0,0,.12);
+	}
+	body {
+		background: linear-gradient(180deg, var(--bg-alt), var(--bg));
+	}
+	h1 { text-shadow: none; }
+	input[type="text"], select {
+		background: var(--panel);
+		border-color: var(--border);
+		color: var(--text);
+	}
+	#predictedPrice, #predictedDaysOnMarket {
+		background: linear-gradient(140deg, var(--panel), #e9f2f6 60%);
+		color: var(--accent);
+	}
+}
+
+/* Hjelpende klasse hvis du senere legger inn container i HTML */
+.container {
+	width: 100%;
+	max-width: 860px;
+	margin: 0 auto;
+}
+
+/* Små utils */
+.mt-sm { margin-top: .5rem !important; }
+.mt-md { margin-top: 1rem !important; }
+.mt-lg { margin-top: 2rem !important; }
+
+/* Fokus-synlighet for tastaturnavigasjon */
+@media (hover: none) {
+	input[type="text"], select { transition: none; }
+}
+
+/* Tilgjengelighet: High contrast (kan aktiveres manuelt) */
+.high-contrast body {
+	filter: contrast(1.15) brightness(1.05);
+}
+

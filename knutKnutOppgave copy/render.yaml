@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: housing-price-predictor
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn wsgi:server"
+    plan: free
